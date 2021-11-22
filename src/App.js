@@ -16,6 +16,17 @@ class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
+
+    parsedContacts && this.setState({ contacts: parsedContacts });
+  }
+
+  componentDidUpdate(prevState) {
+    this.state.contacts !== prevState.contacts &&
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  }
+
   handleAddContact = data => {
     const { contacts } = this.state;
     const newContact = { ...data, id: uuidv4() };
